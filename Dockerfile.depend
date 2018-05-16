@@ -1,0 +1,44 @@
+FROM nvidia/cuda:8.0
+
+MAINTAINER mateusz.malenta@manchester.ac.uk
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    autoconf \
+    automake \
+    bsdmainutils \
+    ca-certificates \
+    csh \
+    cvs \
+    gdb \
+    git \
+    htop \
+    libboost-all-dev \
+    libfftw3-3 \
+    libfftw3-dev \
+    libnuma-dev \
+    libtool \
+    m4 \
+    mlocate \
+    numactl \
+    wget && \
+    apt-get clean
+
+RUN updatedb
+
+WORKDIR /
+
+# psrdata now moved to git
+RUN cvs -z3 -d:pserver:anonymous@psrdada.cvs.sourceforge.net:/cvsroot/psrdada co -P psrdada && \
+    git clone https://github.com/ajameson/dedisp.git
+WORKDIR /psrdada
+RUN ./bootstrap && mkdir /psrdada-install && ./configure --prefix=/psrdada-install && make && make install
+WORKDIR /dedisp
+RUN make
+
+ENV PATH ${PATH}:/psrdada-install/bin
+ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/psrdada-install/lib:/dedisp/lib
+
+RUN echo "set nocompatible" >> ~/.vimrc && \
+    echo "set backspace=2" >> ~/.vimrc
+
+
