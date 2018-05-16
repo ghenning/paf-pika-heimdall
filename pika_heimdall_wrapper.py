@@ -16,7 +16,8 @@ def on_message(connection, channel, method_frame, header_frame, body,opts):
     filename=body
     gpu="0"
     #outdir = "/output/{}".format(filename.split("/")[2]) # full path since we're mounting beegfs to beegfs
-    outdir = "/beegfs/heimpaf/processed/{}".format(filename.split("/")[2]) # full path since we're mounting beegfs to beegfs
+    outdir = "/beegfs/heimpaf/processed/{}".format(filename.split("/")[-2]) # full path since we're mounting beegfs to beegfs
+    # NB: the outdir thing might need some work to make it a bit cleaner/fancier
     try:
         os.mkdir(outdir)
     except OSError as error:
@@ -27,8 +28,11 @@ def on_message(connection, channel, method_frame, header_frame, body,opts):
         #pass
         #subprocess.check_call(["/heimdall/Applications/heimdall", "-f", filename, "-gpu_id", gpu, "-dm", "0.0", "2000.0",
         #                 "-detect_thresh", "7.0", "-output_dir", outdir])
-        subprocess.check_call(["/heimdall/Applications/heimdall", "-f", filename, "-gpu_id", gpu, "-dm", str(opts.lodm), str(opts.hidm),
-                         "-detect_thresh", str(opts.thresh), "-output_dir", outdir])
+        subprocess.check_call(["/heimdall/Applications/heimdall", "-f", filename,
+                               "-gpu_id", gpu, "-dm", str(opts.lodm), str(opts.hidm),
+                               "-detect_thresh", str(opts.thresh), "-output_dir", outdir])
+        chown_comm = "chown -R 50000:50000 " + outdir
+        os.system(chown_comm) # change permissions from root to pulsar
     except Exception as error:
         connection,channel = connect(opts)
         channel.basic_publish(exchange='',
@@ -94,6 +98,7 @@ if __name__ == "__main__":
 rabbitMQ/pikaURL pw username host port (and default) DONE
 queue names DONE
 heimdall xtra args: DONE
+atexit, at fail put file back to input queue
 fix gpu=0 !!!
 kubectl get all
 kubectl describe service rabbitmq

@@ -15,9 +15,9 @@ RUN pip install pika && cd gnuplot-py-1.8 && /anaconda2/bin/python2.7 setup.py i
 
 WORKDIR /
 
-#RUN git clone https://git.code.sf.net/p/heimdall-astro/code heimdall
+RUN git clone https://git.code.sf.net/p/heimdall-astro/code heimdall
 
-COPY heimdall-quick-fix /heimdall
+#COPY heimdall-quick-fix /heimdall
 
 WORKDIR /heimdall
 ENV CUDA_NVCC_FLAGS="-default-stream per-thread"
