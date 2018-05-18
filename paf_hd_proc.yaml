@@ -12,18 +12,21 @@ spec:
       labels:
         app: heimdall
     spec:
+      securityContext:
+        runAsUser: 50000
+        fsGroup: 50000
       containers:
       - name: heimdall-container
         image: mpifrpsr/heimdall
-        args: ["-H", "134.104.70.92", "-p", "31861"]
+        args: ["-H", "rabbitmq-service", "-p", "5672"]
         resources:
           limits:
             nvidia.com/gpu: 1 # requesting 1 GPU
         volumeMounts:
-        - mountPath: /beegfs/
+        - mountPath: /beegfs/heimpaf/
           name: heimdall-volume
       volumes:
       - name: heimdall-volume
         hostPath:
-          path: /beegfs/
+          path: /beegfs/heimpaf/
           type: Directory
