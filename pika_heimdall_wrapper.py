@@ -53,8 +53,7 @@ def on_message(connection, channel, method_frame, header_frame, body,opts):
         connection.close()
         
 def connect(opts):
-    #url = "amqp://{opts.user}:{opts.pw}@{opts.host}:{opts.port}/%2F".format(opts=opts)
-    url = "amqp://{opts.user}:{opts.pw}@{opts.service}:{opts.port}/%2F".format(opts=opts)
+    url = "amqp://{opts.user}:{opts.pw}@{opts.host}:{opts.port}/%2F".format(opts=opts)
     #parameters = pika.URLParameters('amqp://guest:guest@134.104.70.90:5672/%2F')
     parameters = pika.URLParameters(url)
     connection = pika.BlockingConnection(parameters)
@@ -83,7 +82,6 @@ if __name__ == "__main__":
     from optparse import OptionParser
     parser = OptionParser()
     parser.add_option("-H","--host", dest='host',default='134.104.70.91')
-    parser.add_option("-S","--service", dest='service',default='rabbitmq-service')
     parser.add_option("-p","--port", dest='port',default='5672') # change this to 38161?
     parser.add_option("-u","--user", dest='user',default='guest')
     parser.add_option("-w","--password",dest='pw',default='guest')
