@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paf-heimdall-deployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: heimdall
+  template:
+    metadata:
+      labels:
+        app: heimdall
+    spec:
+      containers:
+      - name: heimdall-container
+        image: mpifrpsr/heimdall
+        args: ["-H", "134.104.70.92", "-p", "31861"]
+        resources:
+          limits:
+            nvidia.com/gpu: 1 # requesting 1 GPU
+        volumeMounts:
+        - mountPath: /beegfs/
+          name: heimdall-volume
+      volumes:
+      - name: heimdall-volume
+        hostPath:
+          path: /beegfs/
+          type: Directory
