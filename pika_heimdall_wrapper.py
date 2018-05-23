@@ -3,6 +3,7 @@ import subprocess
 import os
 import sys
 import time
+import signal
 
 def printit(msg):
     print msg
@@ -63,9 +64,27 @@ def connect(opts):
     channel.queue_declare(opts.failq, durable=True)
     return connection, channel
 
+def reinsertQ(opts,body): ###
+    connection, channel = connect(opts)
+    channel.basic_publish(exchange='', routing_key='paf-heimdall-input',
+            body=fname, properties=pike.BasicProperties(delivery_mode = 2,))
+
+class bouncer: ###
+    kill_now = False
+    def __init__(self):
+        signal.signal(signal.SIGINT, self.onexit)
+        signal.signal(signal.SIGTERM, self.onexit)
+
+    def onexit(self,signum,frame,*args,**kwargs):
+        reinsertQ(opts,body)
+        printit( "sent back to Q: {}".format(body))
+        self.kill_now = True
+
 def main(opts):
+    killer = bouncer() ###
     while True:
         connection,channel = connect(opts)
+        global body ###
         method_frame, header_frame, body = channel.basic_get('paf-heimdall-input')
         if method_frame:
             try:
@@ -77,6 +96,8 @@ def main(opts):
         else:
             print time.strftime("%c"),'No message returned, sleeping 30 seconds'
             time.sleep(30)
+        if killer.kill_now: ###
+            break ###
 
 if __name__ == "__main__":
     from optparse import OptionParser

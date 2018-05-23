@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: paf-heimdall-deployment
 spec:
-  replicas: 4
+  replicas: 6
   selector:
     matchLabels:
       app: heimdall
@@ -24,9 +24,17 @@ spec:
             nvidia.com/gpu: 1 # requesting 1 GPU
         volumeMounts:
         - mountPath: /beegfs/heimpaf/
-          name: heimdall-volume
+          name: heimdall-outputs-volume
+        - mountPath: /beegfs/PAFJAN/
+          name: heimdall-inputs-volume
+          readOnly: true
       volumes:
-      - name: heimdall-volume
+      - name: heimdall-outputs-volume
         hostPath:
           path: /beegfs/heimpaf/
           type: Directory
+      - name: heimdall-inputs-volume
+        hostPath:
+          path: /beegfs/PAFJAN/
+          type: Directory
+

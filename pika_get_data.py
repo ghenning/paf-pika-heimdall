@@ -13,6 +13,7 @@ def connect(opts):
 
 def main(opts):
     thepath = os.path.join(opts.path,"*_8bit.fil")
+    #thepath = os.path.join(opts.path,"*/","*_8bit.fil") # dir with subdirs
     files = glob.glob(thepath)
     #do shit with glob results
     connection,channel = connect(opts)
