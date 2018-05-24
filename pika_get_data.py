@@ -1,34 +1,24 @@
 import pika
 import glob
 import os
+import pika_process as PP
 
-def connect(opts):
-    url = "amqp://{opts.user}:{opts.pw}@{opts.host}:{opts.port}/%2F".format(opts=opts)
-    #parameters = pika.URLParameters('amqp://guest:guest@134.104.70.90:5672/%2F')
-    parameters = pika.URLParameters(url)
-    connection = pika.BlockingConnection(parameters)
-    channel = connection.channel()
-    channel.queue_declare("paf-heimdall-input", durable=True)
-    return connection, channel
-
-def main(opts):
-    thepath = os.path.join(opts.path,"*_8bit.fil")
+def main(producer, path):
+    thepath = os.path.join(path,"*_8bit.fil")
     #thepath = os.path.join(opts.path,"*/","*_8bit.fil") # dir with subdirs
-    files = glob.glob(thepath)
+    #thepath = os.path.join(opts.path,"2018-04*/","*_8bit.fil") # April run dirs
+
     #do shit with glob results
-    connection,channel = connect(opts)
-    for fname in files:
-        channel.basic_publish(exchange='', routing_key='paf-heimdall-input', 
-                body=fname, properties=pika.BasicProperties(delivery_mode = 2,))
+    producer.publish(glob.glob(thepath))
 
 if __name__=="__main__":
     from optparse import OptionParser
     parser = OptionParser()
-    parser.add_option("-H","--host", dest='host',default='134.104.70.91')
-    parser.add_option("-p","--port", dest='port',default='5672')
-    parser.add_option("-u","--user", dest='user',default='guest')
-    parser.add_option("-w","--password",dest='pw',default='guest')
-    parser.add_option("-d","--path",dest='path')
+    PP.add_pika_producer_opts(parser)
+    parser.add_option("","--path",dest='path',help="Directory containing filterbank files",type=str,default="")
     (opts,args) = parser.parse_args()
-    main(opts)
+    if opts.path == "":
+        raise Exception("Expected --path argument")
+    producer = PP.pika_producer_from_opts(opts)
+    main(producer, opts.path)
 

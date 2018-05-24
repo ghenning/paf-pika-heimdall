@@ -27,5 +27,7 @@ RUN ./bootstrap && \
     make install
 
 COPY pika_heimdall_wrapper.py /heimdall/Scripts 
+COPY pika_process.py /heimdall/Scripts
+# change this to git clone at some point
 
 ENTRYPOINT ["python", "Scripts/pika_heimdall_wrapper.py"]
