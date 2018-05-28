@@ -4,9 +4,9 @@ import os
 import pika_process as PP
 
 def main(producer, path):
-    thepath = os.path.join(path,"*_8bit.fil")
+    #thepath = os.path.join(path,"*_8bit.fil")
     #thepath = os.path.join(opts.path,"*/","*_8bit.fil") # dir with subdirs
-    #thepath = os.path.join(opts.path,"2018-04*/","*_8bit.fil") # April run dirs
+    thepath = os.path.join(opts.path,"2018-04*/","*_8bit.fil") # April run dirs
 
     #do shit with glob results
     producer.publish(glob.glob(thepath))

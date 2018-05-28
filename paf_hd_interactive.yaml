@@ -1,28 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: paf-heimdall-deployment
+  name: paf-heimdall-interactive-deployment
 spec:
-  replicas: 6
+  replicas: 1
   selector:
     matchLabels:
-      app: heimdall
+      app: heimdall-interactive
   template:
     metadata:
       labels:
-        app: heimdall
+        app: heimdall-interactive
     spec:
-      securityContext:
-        runAsUser: 50000
-        fsGroup: 50000
       containers:
       - name: heimdall-container
         image: mpifrpsr/heimdall
-        args: ["-H", "rabbitmq-service", "-p", "5672","--input", "paf-heimdall-input",
-                "--success", "paf-heimdall-success", "--fail", "paf-heimdall-fail" ]
-        resources:
-          limits:
-            nvidia.com/gpu: 1 # requesting 1 GPU
+        imagePullPolicy: Always
+        command: ['bash']
+        stdin: true
+        tty: true
         volumeMounts:
         - mountPath: /beegfs/heimpaf/
           name: heimdall-outputs-volume
