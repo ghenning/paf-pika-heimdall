@@ -5,6 +5,7 @@ import sys
 import time
 import signal
 import pika_process as PP
+import thechecker
 
 def printit(msg):
     print msg
@@ -17,6 +18,8 @@ def on_message(body, opts):
     #outdir = "/output/{}".format(filename.split("/")[2]) # full path since we're mounting beegfs to beegfs
     outdir = "/beegfs/heimpaf/processed/{}".format(filename.split("/")[-2]) # full path since we're mounting beegfs to beegfs
     # NB: the outdir thing might need some work to make it a bit cleaner/fancier
+    if thechecker.check_between(body,outdir):
+        return
     try:
         os.mkdir(outdir)
     except OSError as error:
