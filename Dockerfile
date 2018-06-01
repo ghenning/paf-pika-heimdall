@@ -32,6 +32,7 @@ ENV PYTHONPATH ${PYTHONPATH}:/pikaprocess/
 WORKDIR /heimdall
 
 COPY pika_heimdall_wrapper.py /heimdall/Scripts 
+COPY thechecker.py /heimdall/Scripts 
 # COPY pika_process.py /heimdall/Scripts
 # change this to git clone at some point
 
