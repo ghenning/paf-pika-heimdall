@@ -26,7 +26,7 @@ spec:
         volumeMounts:
         - mountPath: /beegfs/heimpaf/
           name: heimdall-outputs-volume
-        - mountPath: /beegfs/PAFJAN/
+        - mountPath: /beegfs/PAFJUNE/
           name: heimdall-inputs-volume
           readOnly: true
       volumes:
@@ -36,6 +36,6 @@ spec:
           type: Directory
       - name: heimdall-inputs-volume
         hostPath:
-          path: /beegfs/PAFJAN/
+          path: /beegfs/PAFJUNE/
           type: Directory
 

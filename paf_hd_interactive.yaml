@@ -12,6 +12,9 @@ spec:
       labels:
         app: heimdall-interactive
     spec:
+      securityContext:
+        runAsUser: 50000
+        fsGroup: 50000
       containers:
       - name: heimdall-container
         image: mpifrpsr/heimdall
@@ -22,7 +25,7 @@ spec:
         volumeMounts:
         - mountPath: /beegfs/heimpaf/
           name: heimdall-outputs-volume
-        - mountPath: /beegfs/PAFJAN/
+        - mountPath: /beegfs/PAFJUNE/
           name: heimdall-inputs-volume
           readOnly: true
       volumes:
@@ -32,6 +35,6 @@ spec:
           type: Directory
       - name: heimdall-inputs-volume
         hostPath:
-          path: /beegfs/PAFJAN/
+          path: /beegfs/PAFJUNE/
           type: Directory
 
