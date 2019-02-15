@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: paf-heimdall-deployment
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
       app: heimdall
@@ -12,6 +12,19 @@ spec:
       labels:
         app: heimdall
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                  - pacifix0
+                  - pacifix1
+                  - pacifix2
+                  - pacifix3
+                  - pacifix4
       securityContext:
         runAsUser: 50000
         fsGroup: 50000
@@ -26,8 +39,12 @@ spec:
         volumeMounts:
         - mountPath: /beegfs/heimpaf/
           name: heimdall-outputs-volume
-        - mountPath: /beegfs/PAFJUNE/
+        - mountPath: /beegfs/PAFJAN/
           name: heimdall-inputs-volume
+        - mountPath: /beegfs/PAFAUG/
+          name: heimdall-inputs-volume2
+        - mountPath: /beegfs/PAFJUNE/
+          name: heimdall-inputs-volume3
           readOnly: true
       volumes:
       - name: heimdall-outputs-volume
@@ -35,6 +52,14 @@ spec:
           path: /beegfs/heimpaf/
           type: Directory
       - name: heimdall-inputs-volume
+        hostPath:
+          path: /beegfs/PAFJAN/
+          type: Directory
+      - name: heimdall-inputs-volume2
+        hostPath:
+          path: /beegfs/PAFAUG/
+          type: Directory
+      - name: heimdall-inputs-volume3
         hostPath:
           path: /beegfs/PAFJUNE/
           type: Directory
