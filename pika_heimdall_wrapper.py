@@ -24,6 +24,10 @@ def on_message(body, opts):
     # old
     #if thechecker.check_between(body,outdir):
     #    return
+    # thechecker only works for the original naming convention, it's not the end of the world if we
+    # end up re-running some stuff...
+    #if thechecker.check_between(body,outdir):
+        #return
     try:
         os.mkdir(outdir)
     except OSError as error:

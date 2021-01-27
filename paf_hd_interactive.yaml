@@ -31,6 +31,8 @@ spec:
         #  name: heimdall-inputs-volume
         - mountPath: /beegfsEDD/PAF/PAF/SEARCH/
           name: heimdall-inputs-volume
+        - mountPath: /beegfs/PAFAUG/
+          name: heimdall-inputs-volume2
           readOnly: true
       volumes:
       - name: heimdall-outputs-volume
@@ -43,4 +45,7 @@ spec:
           #path: /beegfs/PAFJUNE/
           path: /beegfsEDD/PAF/PAF/SEARCH/
           type: Directory
-
+      - name: heimdall-inputs-volume2
+        hostPath:
+          path: /beegfs/PAFAUG/
+          type: Directory

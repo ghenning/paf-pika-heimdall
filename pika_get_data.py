@@ -44,6 +44,10 @@ def main(producer, path):
             D = find_phil(d)
             producer.publish(D)
 
+    #old crap
+    #thepath = os.path.join(opts.path,"2018-09-01_233441/B0609+37_180902_5_2/","*.fil") # test with concatenated PAF data
+    #thepath = os.path.join(opts.path,"*.fil") # test with concatenated PAF data
+
     #do shit with glob results
     #producer.publish(glob.glob(thepath))
 
