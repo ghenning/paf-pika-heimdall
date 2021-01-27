@@ -1,0 +1,14 @@
+#version: 3
+services:
+ rabbitmq:
+  image: rabbitmq:3.6-management
+  container_name: rabbitmq-container
+  ports:
+    - 31861:5672
+    - 30001:15672
+  volumes:
+    - /var/lib/rabbitmq/
+    - /beegfsEDD/kubernetes/rabbitmq/
+    #- "rabbitmq_data:/data"
+#volumes:
+#  rabbitmq_data:

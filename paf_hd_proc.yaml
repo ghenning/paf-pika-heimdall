@@ -24,18 +24,17 @@ spec:
           limits:
             nvidia.com/gpu: 1 # requesting 1 GPU
         volumeMounts:
-        - mountPath: /beegfs/heimpaf/
+        - mountPath: /beegfsEDD/PAF/PAF/RESULTS
           name: heimdall-outputs-volume
-        - mountPath: /beegfs/PAFJUNE/
+        - mountPath: /beegfsEDD/PAF/PAF/SEARCH
           name: heimdall-inputs-volume
           readOnly: true
       volumes:
       - name: heimdall-outputs-volume
         hostPath:
-          path: /beegfs/heimpaf/
+          path: /beegfsEDD/PAF/PAF/RESULTS
           type: Directory
       - name: heimdall-inputs-volume
         hostPath:
-          path: /beegfs/PAFJUNE/
+          path: /beegfsEDD/PAF/PAF/SEARCH
           type: Directory
-

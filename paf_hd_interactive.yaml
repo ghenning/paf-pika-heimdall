@@ -23,18 +23,24 @@ spec:
         stdin: true
         tty: true
         volumeMounts:
-        - mountPath: /beegfs/heimpaf/
+        #- mountPath: /beegfs/heimpaf/
+        #  name: heimdall-outputs-volume
+        - mountPath: /beegfsEDD/PAF/PAF/RESULTS/
           name: heimdall-outputs-volume
-        - mountPath: /beegfs/PAFJUNE/
+        #- mountPath: /beegfs/PAFJUNE/
+        #  name: heimdall-inputs-volume
+        - mountPath: /beegfsEDD/PAF/PAF/SEARCH/
           name: heimdall-inputs-volume
           readOnly: true
       volumes:
       - name: heimdall-outputs-volume
         hostPath:
-          path: /beegfs/heimpaf/
+          #path: /beegfs/heimpaf/
+          path: /beegfsEDD/PAF/PAF/RESULTS/
           type: Directory
       - name: heimdall-inputs-volume
         hostPath:
-          path: /beegfs/PAFJUNE/
+          #path: /beegfs/PAFJUNE/
+          path: /beegfsEDD/PAF/PAF/SEARCH/
           type: Directory
 

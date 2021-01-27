@@ -46,14 +46,14 @@ def on_message(body, opts):
                            "-detect_thresh", str(opts.thresh), "-output_dir", outdir])
     #subprocess.check_call(['chown','-R','50000:50000',str(outdir)]) # old pulsar account
     subprocess.check_call(['chown','-R','4875:6850',str(outdir)]) 
-    subprocess.check_call(['chmod','-R','g=u',str(outdir)])
+    subprocess.check_call(['chmod','-R','g=u',str(outdir)]) 
 
 if __name__ == "__main__":
     from optparse import OptionParser
     parser = OptionParser()
     PP.add_pika_process_opts(parser)
     parser.add_option("-d","--lowdm",dest='lodm',default=0.0)
-    parser.add_option("-D","--highdm",dest='hidm',default=2000.0)
+    parser.add_option("-D","--highdm",dest='hidm',default=200.0)
     parser.add_option("-T","--thresh",dest='thresh',default=8.0)
     (opts,args) = parser.parse_args()
     processor = PP.pika_process_from_opts(opts)
