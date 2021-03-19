@@ -38,11 +38,12 @@ if __name__=="__main__":
 	parser.add_argument('--source',type=str,help='Convert all for one source, use this to convert all pointings of a source')
 	parser.add_argument('--sourcebeams',type=str,help='Fix beam numbers in filterbanks, use this to fix the beam numbers of a source for Heimdall')
 	args = parser.parse_args()
-    # finds .dada files and converts them to .fil using dspsr digifil
-    # since this is done from a docker container the output files 
-    # will be owned by root:root, so we chown it to pulsar group
+	# 
+	# finds .dada files and converts them to .fil using dspsr digifil
+	# since this is done from a docker container the output files
+	# will be owned by root:root, so we chown it to pulsar group
 
-    # this runs for the --dir option
+	# this runs for the --dir option
 	if not args.dir==None:
 		D = find_dad(args.dir)
 		for dad in D:
@@ -72,7 +73,7 @@ if __name__=="__main__":
 			#subprocess.check_call(["chown","50000:50000",dad_fil]) # old pulsar account
 			subprocess.check_call(["chown","4875:6850",dad_fil]) 
 			subprocess.check_call(["chmod","g=u",dad_fil]) 
-    # this runs for the --source option
+	# this runs for the --source option
 	if not args.source==None:
 		bigdir = '/beegfsEDD/PAF/PAF/SEARCH/'
 		Source = glob.glob(os.path.join(bigdir,"*"+args.source))
@@ -96,7 +97,7 @@ if __name__=="__main__":
 				subprocess.check_call(["digifil","-b","8","-o",dad_fil,dad])
 			    #subprocess.check_call(["chown","50000:50000",dad_fil]) # old pulsar account
 			    subprocess.check_call(["chown","4875:6850",dad_fil]) 
-    # this runs for the --sourcebeams option
+	# this runs for the --sourcebeams option
 	if not args.sourcebeams==None:
 		bigdir = '/beegfsEDD/PAF/PAF/SEARCH/'
 		Source = glob.glob(os.path.join(bigdir,"*"+args.sourcebeams))
