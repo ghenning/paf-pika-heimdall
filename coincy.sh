@@ -1,10 +1,19 @@
 #!/bin/bash -l
 
+# run coincidencer on source candidates
+
+# path to coincidencer
 C="/heimdall/Applications/coincidencer"
+# path to results directory
 maindir="/beegfsEDD/PAF/PAF/RESULTS/"
 pwd
 cd "$maindir"
 pwd
+# check if there was a source name input, then loop over all
+# result direcotries of the source
+# this is done from a Heimdall container, so chown/chmod 
+# to pulsar group is needed
+# tailor this to your needs (specific source dirs etc...)
 if [ -z $1 ]; then
 	echo "missing source name input"
 else

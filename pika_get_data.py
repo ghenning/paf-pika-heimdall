@@ -3,6 +3,7 @@ import glob
 import os
 import pika_process as PP
 
+# find filterbanks in PATH
 def find_phil(PATH):
     dads = []
     for dirpath,dirnames,filenames in os.walk(PATH):
@@ -37,6 +38,7 @@ def main(producer, path):
     #    D = find_phil(d)
     #    producer.publish(D)
     ### NEED TO SPLIT 2020 SUMMER AND WINTER DATA! ###
+    # here you can set your restrictions on which data to publish to rabbit
     for d in Source:
         e = d.split(os.sep)[-1]
         #if "2020-12" in e: ### find the winter data

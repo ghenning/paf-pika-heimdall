@@ -5,6 +5,7 @@ import sys
 import time
 import signal
 import pika_process as PP
+# old import for pre-2020 data
 #import thechecker
 
 def printit(msg):
@@ -18,6 +19,7 @@ def on_message(body, opts):
     #outdir = "/output/{}".format(filename.split("/")[2]) # full path since we're mounting beegfs to beegfs
     ###outdir = "/beegfs/heimpaf/processed/{}".format(filename.split("/")[-2]) # full path since we're mounting beegfs to beegfs
     # NB: the outdir thing might need some work to make it a bit cleaner/fancier
+    # creating the name of the output directory
     outd_name = os.path.basename(filename).split('_BEAM_')[0]
     new_out = '/beegfsEDD/PAF/PAF/RESULTS/'
     outdir = os.path.join(new_out,outd_name)
@@ -28,11 +30,14 @@ def on_message(body, opts):
     # end up re-running some stuff...
     #if thechecker.check_between(body,outdir):
         #return
+    # creating the output directory
     try:
         os.mkdir(outdir)
     except OSError as error:
         printit(error)
 
+    # running Heimdall
+    # manually set zap ranges here, or change the script to automate it
     printit( "Calling Heimdall...")
     subprocess.check_call(["/heimdall/Applications/heimdall", "-f", filename,
                            "-gpu_id", gpu, "-dm", str(opts.lodm), str(opts.hidm),
@@ -49,6 +54,7 @@ def on_message(body, opts):
                            #"-zap_chans", str(435), str(455),
                            "-detect_thresh", str(opts.thresh), "-output_dir", outdir])
     #subprocess.check_call(['chown','-R','50000:50000',str(outdir)]) # old pulsar account
+    # need to chown and chmod to pulsar group
     subprocess.check_call(['chown','-R','4875:6850',str(outdir)]) 
     subprocess.check_call(['chmod','-R','g=u',str(outdir)])
 
