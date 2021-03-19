@@ -94,7 +94,8 @@ python pika_get_data.py -q paf-heimdall-input --source <source name>
 ```
 `pika_get_data.py` searches the data directory for all filterbanks of the input source and sends the filterbank paths to Rabbit. You can change the timestamp constraint in order to avoid re-processing already processed data.
 
-Heimdall writes out single pulse candidates that are saved in a source's corresponding results directory. Each candidate file contains candidates of a single beam over some time interval. To make more sense out of the candidates they need to be coincidenced using Heimdall's coincidencer. This can be done using `coincy.sh`, which loops through each result directory of a source and runs the coincidencer. Since the coincidencer is a part of Heimdall you'll need to run it from a Heimdall container. Luckily, we have such a container ready in `heimdall-feeder`. Simply re-attach to `heimdall-feeder` and run ```sh
+Heimdall writes out single pulse candidates that are saved in a source's corresponding results directory. Each candidate file contains candidates of a single beam over some time interval. To make more sense out of the candidates they need to be coincidenced using Heimdall's coincidencer. This can be done using `coincy.sh`, which loops through each result directory of a source and runs the coincidencer. Since the coincidencer is a part of Heimdall you'll need to run it from a Heimdall container. Luckily, we have such a container ready in `heimdall-feeder`. Simply re-attach to `heimdall-feeder` and run 
+```sh
 ./coincy.sh <source name>
 ```
 Heimdall candidate files are labeled as `<timestamp>_<beam number>.cand`, while the coincidenced candidate file is labeled `<timestamp>_all.cand`.
