@@ -16,13 +16,16 @@ def on_message(body, opts):
     printit( "Received file: {}".format(body))
     filename=body
     gpu="0"
+
     #outdir = "/output/{}".format(filename.split("/")[2]) # full path since we're mounting beegfs to beegfs
     ###outdir = "/beegfs/heimpaf/processed/{}".format(filename.split("/")[-2]) # full path since we're mounting beegfs to beegfs
+
     # NB: the outdir thing might need some work to make it a bit cleaner/fancier
     # creating the name of the output directory
     outd_name = os.path.basename(filename).split('_BEAM_')[0]
     new_out = '/beegfsEDD/PAF/PAF/RESULTS/'
     outdir = os.path.join(new_out,outd_name)
+
     # old
     #if thechecker.check_between(body,outdir):
     #    return
@@ -30,6 +33,7 @@ def on_message(body, opts):
     # end up re-running some stuff...
     #if thechecker.check_between(body,outdir):
         #return
+
     # creating the output directory
     try:
         os.mkdir(outdir)

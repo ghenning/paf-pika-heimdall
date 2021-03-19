@@ -41,6 +41,7 @@ if __name__=="__main__":
     # finds .dada files and converts them to .fil using dspsr digifil
     # since this is done from a docker container the output files 
     # will be owned by root:root, so we chown it to pulsar group
+
     # this runs for the --dir option
 	if not args.dir==None:
 		D = find_dad(args.dir)

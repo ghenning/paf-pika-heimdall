@@ -15,12 +15,13 @@ def find_phil(PATH):
 
 
 def main(producer, path):
+    # old
     #thepath = os.path.join(path,"*_8bit.fil")
     #thepath = os.path.join(opts.path,"*/","*_8bit.fil") # dir with subdirs
     #thepath = os.path.join(opts.path,"2018-04*/","*_8bit.fil") # April run dirs
     ### this is for the old system/structure
     ### make something source-by-source basis like is done in convert_dada_fil.py
-    thepath = os.path.join(opts.path,"J1419*/","*_8bit.fil") # specific dirs
+    #thepath = os.path.join(opts.path,"J1419*/","*_8bit.fil") # specific dirs
     #thepath = os.path.join(opts.path,"*_8bit.fil") # hi, I'm a comment
 
     ### find (glob) all filterbanks for a specific source and publish

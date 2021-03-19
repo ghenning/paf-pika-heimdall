@@ -10,7 +10,7 @@ pwd
 cd "$maindir"
 pwd
 # check if there was a source name input, then loop over all
-# result direcotries of the source
+# result directories of the source
 # this is done from a Heimdall container, so chown/chmod 
 # to pulsar group is needed
 # tailor this to your needs (specific source dirs etc...)
